@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+SMSW_LIB=@SMSW_LIB@
+
+#exec rlwrap scsh lp+ $SMSW_LIB -le $SMSW_LIB/load.scm
+#exec rlwrap scsh -le $SMSW_LIB/load.scm -m snfpmi
+exec rlwrap scsh -le $SMSW_LIB/load.scm

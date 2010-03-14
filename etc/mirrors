@@ -1,0 +1,17 @@
+; -*- mode: scheme -*-
+
+; (name host (access-type path [host]) ...)
+
+; Poland
+(sunsite-pl
+ sunsite.icm.edu.pl
+ (ftp pub/Linux/slackware))
+
+(slackware-pl
+ ftp.slackware.pl
+ (ftp pub/slackware))
+
+(szczecin-man
+ ftp.man.szczecin.pl
+ (ftp pub/Linux/slackware))
+

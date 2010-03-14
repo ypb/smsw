@@ -1,0 +1,18 @@
+ScheMeta SlackWarez
+-------------------
+
+Slackware (http://www.slackware.com/) Linux package manager written in Scsh
+(http://www.scsh.net/) - Unix schell embedded within Scheme
+(http://www.schemers.org/) - a dialect of Lisp.
+
+Installing
+----------
+
+Prerequisites:
+
+  * Slackware
+  * Scsh
+  * rlwrap
+
+Edit top of Makefile to your liking, then 'make install' should do it...
+
