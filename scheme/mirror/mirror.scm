@@ -119,6 +119,10 @@
     (case choice
       ((main) (get-filelist "FILELIST.TXT"))
       ((core) (get-filelist "slackware/FILE_LIST"))
+      ((tagfiles) (map get-filelist
+		       (map (mk-prepend-str "slackware/")
+			    (map (mk-append-str "/tagfile")
+				 core-subdirs))))
       (else #f))))
 
 ;;; this is not-trivially fubared...

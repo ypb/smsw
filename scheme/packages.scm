@@ -82,7 +82,8 @@
   (export typefy
 	  verify-directory
 	  verify-directories
-	  mk-prepend-str))
+	  mk-prepend-str
+	  mk-append-str))
 
 (define-structure smsw-utils smsw-utils-interface
   (open scheme-with-scsh)
@@ -91,19 +92,23 @@
 ;; packages (finally)
 (define-interface smsw-pkg-interface
   (export list-pkg
+	  list-pkg-range
 	  list-pkgs
 	  find-pkg
 	  get-pkg
 	  pkg-stats
-	  bootstrap))
+	  bootstrap
+	  get-core-pkgs))
 
 (define-structure smsw-pkg smsw-pkg-interface
   (open scheme-with-scsh
+	tables
 	smsw-mirror
 	smsw-globals
 	smsw-access
 	smsw-utils)
   (files "pkg/pkg.scm"
+	 "pkg/pkg-adt.scm"
 	 "pkg/bootstrap.scm"))
 
 ;; main

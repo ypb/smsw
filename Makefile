@@ -38,7 +38,7 @@ ETC_FILES	:= main mirrors
 #scheme_dirs	:= access config globals help mirror pkg utils
 #scheme_srcs	:= scheme/packages.scm\
 #		   $(wildcard $(scheme_dirs:%=scheme/%/*.scm))
-# this way we depend on find...
+# this way makes us depend on find...
 
 scheme_srcs	:= $(shell find scheme -name "*.scm")
 SCM_FILES	:= $(filter-out ${EXTERNAL},${scheme_srcs})
@@ -77,14 +77,14 @@ install: all this-is-beta-soft
 # libraries
 	mkdir -p ${DESTDIR}${SMSW_LIB}
 	cp load.scm ${DESTDIR}${SMSW_LIB}
-# hmmmses...
-	cp scheme ${DESTDIR}${SMSW_LIB}
+# TODO lazy mofo
+	cp -r scheme ${DESTDIR}${SMSW_LIB}
 # docs
 	mkdir -p ${DESTDIR}${SMSW_DOC}
 	cp ${DOC_FILES} ${DESTDIR}${SMSW_DOC}
-# SMSW_VAR should have some special perms...
+# TODO SMSW_VAR should have some special perms...
 	mkdir -p ${DESTDIR}${SMSW_VAR}
-# perhaps only accessible to installers group?
+# perhaps only accessible to installers group? for now
 	chmod 770 ${DESTDIR}${SMSW_VAR}
 
 uninstall: this-is-beta-soft

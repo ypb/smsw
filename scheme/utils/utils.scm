@@ -109,5 +109,8 @@
 ;;;
 
 (define (mk-prepend-str with)
-  (lambda (x)
-    (string-append with x)))
+  (lambda (s)
+    (string-append with s)))
+(define (mk-append-str with)
+  (lambda (s)
+    (string-append s with)))

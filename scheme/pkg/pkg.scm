@@ -21,7 +21,7 @@
 (define (get-pkgs)
   (let ((filelist (current-mirror-filelist 'core)))
     (if filelist
-	(read-pkg-records filelist)
+	(make-pkg-list (read-pkg-records filelist) 'core)
 	(begin (display "No available filelist")
 	       (newline)
 	       #f))))
@@ -37,39 +37,9 @@
 		  (cons (list-tail (split line) 4) (loop (read-line)))
 		  (loop (read-line)))
 	      '()))))))
+
 ;; returns (("size" "YYYY-MM-DD" "HH:MM" "./foo/pkg-name-ver-arch-build(.tgz|.txz)") ...)
-
-(define pkg-path cadddr)
-;;; pkg name handling...
-(define split-pkg-file-name (infix-splitter (rx "-")))
-(define (list-butt lst num)
-  (let ((until (- (length lst) num)))
-    (cond
-     ((<= until 0) '())
-     ((= until 1) (cons (car lst) '()))
-     (else (let loop ((u until) (l lst))
-	     (if (= 0 u)
-		 '()
-		 (cons (car l) (loop (- u 1) (cdr l)))))))))
-(define (reassemble parts)
-  (if (null? parts)
-      ""
-      (let loop ((str (car parts)) (l (cdr parts)))
-	(if (null? l)
-	    str
-	    (loop (string-append str "-" (car l))
-		  (cdr l))))))
-(define (pkg-name pkg)
-  (let* ((filename (file-name-nondirectory (pkg-path pkg)))
-	 (split (split-pkg-file-name filename))
-	 (parts (list-butt split 3)))
-    (reassemble parts)))
-
-;; TOFIX assuming core
-(define (pkg-path-full pkg)
-  (string-append "slackware"
-		 "/"
-		 (pkg-path pkg)))
+; see pkg-adt.scm for more
 
 ;; (read-line [port handle-newline)
 ;; (regexp-search? re string [start flags])
@@ -77,7 +47,7 @@
 
 (define (display-list-pkgs lst)
   (for-each (lambda (p)
-	      (display (cadddr p)) (newline))
+	      (display (pkg-path-full p)) (newline))
 	    lst))
 
 (define (list-pkgs namefraglst . flag)
@@ -141,6 +111,10 @@
 	       #t)
 	#f)))
 
+(define (ifempty-init-pkglist)
+  (if (null? pkglist)
+      (init-pkglist)))
+
 ;;; MOARE precise
 
 ;; exactly... but can search results of simpler list-pkg[s]
@@ -201,3 +175,35 @@
 			  (newline)
 			  #f)))))))
 ;; BUTT we are mising dir structure verification! SHIT
+
+; opts: [taglist [sectlist]]
+; 'taglist' defaults to '(ADD)
+; tag = 'ADD | 'REC | 'OPT
+; sect = "a" | "ap" | ... | "y"
+; 'sectlist' defaults to '("a" "ap" "d" "l" "n")
+; using #f forces all knows tags or sects...
+
+; (define (get-core-pkgs . opts))
+
+(define (get-core-pkgs-list)
+  (ifempty-init-pkglist)
+  (let ((def-tags '(ADD))
+	(def-sects '("a" "ap" "d" "l" "n")))
+    (if (null? pkglist)
+	'()
+	(let loop ((l pkglist))
+	  (if (null? l)
+	      '()
+	      (let* ((pkg (car l))
+		     (tag (memq (pkg-tag pkg) def-tags))
+		     (sect (member (pkg-sect pkg) def-sects)))
+		(if (and tag sect)
+		    (cons pkg (loop (cdr l)))
+		    (loop (cdr l)))))))))
+
+(define (get-core-pkgs)
+  (for-each (lambda (pkg)
+	      (display (map get-pkg-file
+			    (make-pkg-set pkg)))
+	      (newline))
+	    (get-core-pkgs-list)))
