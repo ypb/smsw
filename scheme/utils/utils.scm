@@ -121,3 +121,30 @@
 (define (is-comment? str)
   (let ((pat (rx (: bos (* whitespace) "#" any))))
     (regexp-search? pat str)))
+
+;; OH curry
+(define (mk-left-padder to char)
+  (lambda (str)
+    (let ((diff (- to
+		   (string-length str))))
+      (display str)
+      (if (> diff 0)
+	  (display (make-string diff char))))))
+
+(define (mk-right-padder to char)
+  (lambda (str)
+    (let ((diff (- to
+		   (string-length str))))
+      (if (> diff 0)
+	  (display (make-string diff char)))
+      (display str))))
+
+(define (padder-maker type char)
+  (let ((left (lambda (num)
+		(mk-left-padder num char)))
+	(right (lambda (num)
+		 (mk-right-padder num char))))
+    (case type
+      ((left) left)
+      ((right) right)
+      (else right))))

@@ -49,11 +49,106 @@
     (match:substring (regexp-search extricator frag) 2)))
 ;;; hmmm... seems to work, not sure about that 2 here ^
 
-(define lpkg-name car)
-(define lpkg-version cadr)
-(define lpkg-arch caddr)
-(define lpkg-build cadddr)
-(define lpkg-full-name reassemble)
+(define (lpkg? lpkg)
+  (and (pair? lpkg)
+       (pair? (car lpkg))
+       (eq? 'lpkg (caar lpkg))))
+
+(define (lpkg-type lpkg)
+  (cadar lpkg))
+(define (lpkg-tag lpkg)
+  (caddar lpkg))
+(define (lpkg-sect lpkg)
+  (caddr (lpkg-head lpkg)))
+
+(define lpkg-head car)
+
+(define (lpkg-name lpkg)
+  (raw-lpkg-name (cdr lpkg)))
+(define (lpkg-version lpkg)
+  (raw-lpkg-version (cdr lpkg)))
+(define (lpkg-arch lpkg)
+  (raw-lpkg-arch (cdr lpkg)))
+(define (lpkg-build lpkg)
+  (raw-lpkg-build (cdr lpkg)))
+(define (lpkg-full-name lpkg)
+  (raw-lpkg-full-name (cdr lpkg)))
+
+;; raw from read
+(define raw-lpkg-name car)
+(define raw-lpkg-version cadr)
+(define raw-lpkg-arch caddr)
+(define raw-lpkg-build cadddr)
+(define raw-lpkg-full-name reassemble)
+
+;; like make-core-list
+(define (make-installed-list raw-list)
+  (if (null? raw-list)
+      '()
+      (let ((sver-num-str (extract-etc-version)))
+	(if (not sver-num-str)
+	    (begin (display "Couldn't get OS version.")
+		   (newline)
+		   '())
+	    (let* ((tag-hash (get-pkg-tags (string-append "slackware-"
+							  sver-num-str)))
+		   (pkg-maker (mk-lpkg-maker 'installed tag-hash)))
+	      (let loop ((l raw-list))
+		(if (null? l)
+		    '()
+		    (cons (pkg-maker (car l))
+			  (loop (cdr l))))))))))
+
+; let's for now mimic pkg format...
+; lpkg-format (('lpkg 'type 'tag "sect") "name" "version" "arch" "build")
+; perhaps arch a symbol and build must be a number?
+
+(define (mk-lpkg-maker type tag-cloud)
+  (if tag-cloud
+      (lambda (raw-lpkg)
+	(let ((name (raw-lpkg-name raw-lpkg)))
+	  (cons (list 'lpkg
+		      type
+		      (table-ref tag-cloud name)
+		      #f) ; ekhem
+		raw-lpkg)))
+      (lambda (raw-lpkg)
+	(cons (list 'lpkg
+		    type
+		    #f
+		    #f)
+	      raw-lpkg))))
+
+;; TOPONDER if we get bogus string like 11.0.0 many things may break!
+(define (extract-etc-version)
+  (let ((vfile "/etc/slackware-version")
+	(match (rx (: (+ numeric)
+		      "."
+		      numeric))))
+    (if (file-exists? vfile)
+	(let ((smth (read-etc-smth vfile)))
+	  (and smth
+	       (match:substring (regexp-search match
+					       smth))))
+	(begin (display "File ")
+	       (display vfile)
+	       (display "does not exist.")
+	       (newline)
+	       #f))))
+
+(define (read-etc-smth file)
+  (let ((match (rx (: bos
+		      "Slackware "
+		      (+ numeric)
+		      (* any)))))
+    (with-input-from-file file
+      (lambda ()
+	(let loop ((line (read-line)))
+	  (if (not (eof-object? line))
+	      (if (regexp-search? match line)
+		  line
+		  (loop (read-line)))
+	      #f))))))
 
 ;; good patter?
 (define (verify-lpkg-list)
@@ -108,30 +203,3 @@
 		    (max b (string-length (lpkg-build lpkg)))
 		    (cdr l))
 	      (loop n v a b (cdr l)))))))
-
-;; OH curry
-(define (mk-left-padder to char)
-  (lambda (str)
-    (let ((diff (- to
-		   (string-length str))))
-      (display str)
-      (if (> diff 0)
-	  (display (make-string diff char))))))
-
-(define (mk-right-padder to char)
-  (lambda (str)
-    (let ((diff (- to
-		   (string-length str))))
-      (if (> diff 0)
-	  (display (make-string diff char)))
-      (display str))))
-
-(define (padder-maker type char)
-  (let ((left (lambda (num)
-		(mk-left-padder num char)))
-	(right (lambda (num)
-		 (mk-right-padder num char))))
-    (case type
-      ((left) left)
-      ((right) right)
-      (else right))))

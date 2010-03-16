@@ -121,42 +121,58 @@
 
 ;; servicing pkg queries... HMMM...
 
-(define (get-filelist path)
-  (let ((mn (mirror-string))
-	(sv (slackware-version)))
-    (if (and mn sv)
-	(let ((path (string-append meta-root
-				   "/"
-				   mn
-				   "/"
-				   sv
-				   "/"
-				   path)))
-	  (if (file-readable? path)
-	      path
+; mn - mirror name (as string)
+; sv - slackware-NN.N (as string)
+(define (mk-path-renderer mn sv)
+  (if (and mn sv)
+      (lambda (frag)
+	(let ((fpath (string-append meta-root
+				    "/"
+				    mn
+				    "/"
+				    sv
+				    "/"
+				    frag)))
+	  (if (and (file-exists? fpath)
+		   (file-readable? fpath))
+	      fpath
 	      (begin (display "File: ")
-		     (display path)
-		     (display " not readable.")
+		     (display fpath)
+		     (display "doesn't exist or not readable.")
 		     (newline)
-		     #f)))
-	(begin (display "Insane settings in 'get-filelist'.")
-	       (newline)
-	       #f))))
+		     #f))))
+      (begin (display "Insane settings in 'mk-path-renderer'.")
+	     (newline)
+	     #f)))
 
 ; 'core 'extra 'patches ? 'main ... "all"
-(define (current-mirror-filelist . sym)
-  (let ((choice (if (null? sym)
-		    'main
-		    (car sym))))
-    (case choice
-      ((main) (get-filelist "FILELIST.TXT"))
-      ((core) (get-filelist "slackware/FILE_LIST"))
-      ((tagfiles) (map get-filelist
-		       (map (mk-prepend-str "slackware/")
-			    (map (mk-append-str "/tagfile")
-				 core-subdirs))))
-      (else #f))))
+(define (mirror-filelist render type)
+  (and render
+       (case type
+	 ((main) (render "FILELIST.TXT"))
+	 ((core) (render "slackware/FILE_LIST"))
+	 ((tagfiles) (map render
+			  (map (mk-prepend-str "slackware/")
+			       (map (mk-append-str "/tagfile")
+				    core-subdirs))))
+	 (else #f))))
 
 ;;; this is not-trivially fubared...
 
 ; (current-mirror-path)
+
+(define (current-mirror-filelist . sym)
+  (let ((choice (if (null? sym)
+		    'main
+		    (car sym))))
+    (mirror-filelist (default-renderer) choice)))
+
+(define (mirror-filelist/sv slackware-V type)
+  (mirror-filelist (mk-path-renderer (mirror-string) slackware-V)
+		   type))
+;;; not needed for now?
+; (define (mirror-filelist/mn mirror-string type) ...)
+
+; your'so dynamic
+(define (default-renderer)
+  (mk-path-renderer (mirror-string) (slackware-version)))

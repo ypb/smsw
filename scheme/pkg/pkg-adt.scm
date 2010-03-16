@@ -69,8 +69,10 @@
 ;; TOFIX and TODO omit comments like parsing! SHEESH AAAAAND trim whitespace...
 ; returns... hash-table of "short" pkg-names and their tag or #f
 ; SO very SO ugly...
-(define (get-pkg-tags)
-  (let ((lstofiles (current-mirror-filelist 'tagfiles))
+(define (get-pkg-tags slackware-N)
+  (let ((lstofiles (if (not slackware-N)
+		       (current-mirror-filelist 'tagfiles)
+		       (mirror-filelist/sv slackware-N 'tagfiles))) ; fragile
 	(hash (make-string-table))
 	(gotany? #f)) ; there is no point to bother if there is no tagfiles at all
     (for-each
@@ -117,16 +119,19 @@
 ;; NOT good, but we think of 'core for now anyway, just a place-holder
 (define (make-other-list raw-list) raw-list)
 
+; get-pkg-tags is expensive fail early
 (define (make-core-list raw-list)
-  (let* ((tag-hash (get-pkg-tags))
-	 (pkg-maker (mk-pkg-maker 'core tag-hash)))
-    (let loop ((l raw-list))
-      (if (null? l)
-	  '()
-	  (cons (pkg-maker (car l))
-		(loop (cdr l)))))))
-    
+  (if (null? raw-list)
+      '()
+      (let* ((tag-hash (get-pkg-tags #f)) ; use default settings
+	     (pkg-maker (mk-pkg-maker 'core tag-hash)))
+	(let loop ((l raw-list))
+	  (if (null? l)
+	      '()
+	      (cons (pkg-maker (car l))
+		    (loop (cdr l))))))))
 
+;; almost exactly duplicated in local.scm (refinktor?)
 (define (mk-pkg-maker type tag-hash)
   (if tag-hash
       (lambda (raw-pkg)

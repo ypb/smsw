@@ -62,7 +62,8 @@
 (define-interface smsw-mirror-interface
   (export list-mirrors
 	  init-mirrors
-	  current-mirror-filelist))
+	  current-mirror-filelist
+	  mirror-filelist/sv))
 
 (define-structure smsw-mirror smsw-mirror-interface
   (open scheme-with-scsh
@@ -87,7 +88,8 @@
 	  mk-prepend-str
 	  mk-append-str
 	  trim-whitespace
-	  is-comment?))
+	  is-comment?
+	  padder-maker))
 
 (define-structure smsw-utils smsw-utils-interface
   (open scheme-with-scsh)
@@ -102,7 +104,8 @@
 	  get-pkg
 	  pkg-stats
 	  bootstrap
-	  get-core-pkgs))
+	  get-core-pkgs
+	  upgrade-hints))
 
 (define-structure smsw-pkg smsw-pkg-interface
   (open scheme-with-scsh
@@ -114,6 +117,7 @@
   (files "pkg/pkg.scm"
 	 "pkg/pkg-adt.scm"
 	 "pkg/local.scm"
+	 "pkg/actions.scm"
 	 "pkg/bootstrap.scm"))
 
 ;; main
