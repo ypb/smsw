@@ -113,6 +113,7 @@
 	smsw-utils)
   (files "pkg/pkg.scm"
 	 "pkg/pkg-adt.scm"
+	 "pkg/local.scm"
 	 "pkg/bootstrap.scm"))
 
 ;; main
