@@ -1,0 +1,22 @@
+
+Major TODOs due to discovered usage patterns and intricate gotchas (gathered
+in one files for easier overview, in random order):
+
+ * downloading needs to preserve file timestamps DONE (for wget)
+ * the same package files are shared between different slackware versions
+ * do not initiate ALL mirrors, but only the ones chosen in etc/main
+ * as it is now changing config (specifically version looked upon)
+   should also trigger package list recomputation
+ * find a way to discover and perhaps record available releases on the
+   given mirror (perhaps not so crucial if tracking -current only)
+ * looks like we need to track package versions at the least (across releases)
+ * what's with making sure directories exist? if download fails... we are left
+   with empty ones ;(
+ * BLACKLIST/WHITELIST on ad hoc mass downloads, or "answers" to given class of
+   action, see next...
+ * if we are on it, think about the logic of (update only makes sense on
+   -current, except for patches)
+ * organize in consumers and providers... e.g. (get-core-pkgs) can not be run
+   without information from tagfiles, and you shouldn't be forced to manually:
+   first, (initing-mirrors) in order to get them and then... refreshing
+   internal list of packages in order to filter by them...

@@ -66,6 +66,7 @@
 
 ;;;
 
+;; TOFIX and TODO omit comments like parsing! SHEESH AAAAAND trim whitespace...
 ; returns... hash-table of "short" pkg-names and their tag or #f
 ; SO very SO ugly...
 (define (get-pkg-tags)
@@ -101,13 +102,15 @@
       (lambda ()
 	(let loop ((line (read-line)))
 	  (if (not (eof-object? line))
-	      (let ((split (splitter line)))
-		(if (= 2 (length split))
-		    (let ((name (car split))
-			  (tag (string->symbol (cadr split))))
-		      (cons (cons name tag)
-			    (loop (read-line))))
-		    (loop (read-line))))
+	      (if (not (is-comment? line))
+		  (let ((split (splitter line)))
+		    (if (= 2 (length split))
+			(let ((name (trim-whitespace (car split)))
+			      (tag (trim-whitespace (cadr split))))
+			  (cons (cons name (string->symbol tag))
+				(loop (read-line))))
+			(loop (read-line))))
+		  (loop (read-line)))
 	      '()))))))
 ;; TOFIX ... perhaps check if tag is sane?
 

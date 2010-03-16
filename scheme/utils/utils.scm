@@ -114,3 +114,10 @@
 (define (mk-append-str with)
   (lambda (s)
     (string-append s with)))
+
+(define (trim-whitespace str)
+  (let ((pat (rx (+ (~ whitespace)))))
+    (match:substring (regexp-search pat str))))
+(define (is-comment? str)
+  (let ((pat (rx (: bos (* whitespace) "#" any))))
+    (regexp-search? pat str)))

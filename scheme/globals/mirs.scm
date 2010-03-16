@@ -42,15 +42,19 @@
        (not (null? (cdr mir)))
        (assq 'name (cdr mir))))
 
+; of confusando de daynamic vs anemic named variably
+(define (find-mirror mir-name-str mirs-lst)
+  (if (not mir-name-str)
+      ; this is awkward
+      #f
+      (let search ((l mirs-lst))
+	(if (null? l)
+	    #f
+	    (let ((mir (car l)))
+	      (if (equal? mir-name-str (mirror-name mir))
+		  mir
+		  (search (cdr l))))))))
+
+;;; first-mirror sounds more like it
 (define (current-mirror)
-  (let ((tmp (mirrors-list)))
-    (if (not (null? tmp))
-	(let ((mn (mirror-string)))
-	  (let search ((m (car tmp))
-		       (l (cdr tmp)))
-	    (if (equal? mn (mirror-name m))
-		m
-		(if (null? l)
-		    #f
-		    (search (car l) (cdr l))))))
-	#f)))
+  (find-mirror (mirror-string) (mirrors-list)))

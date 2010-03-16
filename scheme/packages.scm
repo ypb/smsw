@@ -20,11 +20,13 @@
 	  slackware-version
 	  protocol
 	  mirror-string
+	  mirror-strings ; list of preference
 	  version
 	  wget-opts
 	  ; mirs
 	  current-mirror
-	  mirrors-list
+	  find-mirror
+	  mirrors-list ; ALL defined
 	  mirror-name
 	  mirror-path))
 
@@ -83,7 +85,9 @@
 	  verify-directory
 	  verify-directories
 	  mk-prepend-str
-	  mk-append-str))
+	  mk-append-str
+	  trim-whitespace
+	  is-comment?))
 
 (define-structure smsw-utils smsw-utils-interface
   (open scheme-with-scsh)

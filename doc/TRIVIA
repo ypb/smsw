@@ -1,0 +1,36 @@
+1.1.2
+2.0.1
+2.2.0
+2.3
+
+from 3.3 ChangeLog.txt
+3.1.0 (release 1996-07-03 14:48:46 PDT) Slackware96 (2.0.0 Linux kernel, gcc-2.7.2, and the 5.3.12 C library
+3.2.0 (release 1997-02-17 15:05:24 CST)
+3.3.0 (release 1997-07-11 00:17:00 CDT)
+ends on 1997-10-03
+
+from 3.4 ChangeLog.txt
+3.4.0 (release 1997-10-14 19:32:02 PDT)
+the same about 3.3-3.1
+ends on 1998-05-22
+
+from 3.5 ChangeLog.txt
+3.5.0 (release 1998-06-09 13:38:16 PDT) -stable
+the same about 3.4-3.1
+ends on 1998-10-15
+
+from 3.6 ChangeLog.txt
+3.6.0 (release 1998-10-28 04:20:01 CST)
+the same about 3.5-3.1
+ends on 1999-03-18
+
+from 3.9 ChangeLog.txt
+3.9.0 (release 1999-05-10 21:49:38 CDT) -stable (looks like it was supposed to be 4.0.0)
+the same about 3.6-3.1
+ends on 1999-07-16
+
+from 4.0 ChangeLog.txt
+4.0.0 (release 1999-05-17 20:17:35 CDT) -stable
+the "same" about 3.6-3.1
+ends on 1999-11-27
+

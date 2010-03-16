@@ -2,16 +2,27 @@
 
 ; (name host (access-type path [host]) ...)
 
-; Poland
-(sunsite-pl
- sunsite.icm.edu.pl
- (ftp pub/Linux/slackware))
-
+;; Poland
+; 8.1
 (slackware-pl
  ftp.slackware.pl
  (ftp pub/slackware))
-
+; 3.3 .. 8.1 
 (szczecin-man
  ftp.man.szczecin.pl
  (ftp pub/Linux/slackware))
-
+; 12.1
+(sunsite-pl
+ sunsite.icm.edu.pl
+ (ftp pub/Linux/slackware))
+;; Germany
+; 8.1
+(sunsite-de
+ sunsite.informatik.rwth-aachen.de
+ (ftp pub/Linux/slackware))
+; 1.1.2 .. 9.0
+(gwdg-de
+ ftp.gwdg.de
+ (ftp pub/linux/slackware)
+ (http pub/linux/slackware))
+;;   8.1 9.0 9.1 10.0 10.1 10.2 11.0 12.0 12.1 12.2 13

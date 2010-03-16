@@ -26,6 +26,8 @@
 ; string
 (define (mirror-string)
   (get-variable 'mirror))
+(define (mirror-strings)
+  (get-variable 'mirrors))
 
 ;;;
 

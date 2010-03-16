@@ -29,8 +29,9 @@ SMSW_DOC	:= ${PREFIX}/doc/${FULLNAME}
 
 EXTERNAL	:= scheme/globals/external.scm
 
-TOP_FILES	:= Makefile VERSION
-DOC_FILES	:= README
+top_files	:= Makefile VERSION
+doc_files	:= README
+DOC_FILES	:= TRIVIA DESIGN
 IN_FILES	:= external.scm load.scm ${NAME}
 ETC_FILES	:= main mirrors
 
@@ -43,8 +44,8 @@ ETC_FILES	:= main mirrors
 scheme_srcs	:= $(shell find scheme -name "*.scm")
 SCM_FILES	:= $(filter-out ${EXTERNAL},${scheme_srcs})
 
-FILES		:= ${TOP_FILES} ${DOC_FILES} $(IN_FILES:%=in/%)\
-		   $(ETC_FILES:%=etc/%) $(SCM_FILES)
+FILES		:= ${top_files} ${doc_files} $(DOC_FILES:%=doc/%)\
+		   $(IN_FILES:%=in/%) $(ETC_FILES:%=etc/%) $(SCM_FILES)
 
 GEN_FILES	:= ${NAME} load.scm ${EXTERNAL}
 

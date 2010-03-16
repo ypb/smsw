@@ -1,17 +1,18 @@
 ; -*- mode: scheme -*-
 
 ; which version of slackware to "look" on
-(current "13.0")
+(current "12.2")
 ; need explicit string because scsh renders 13.0 into "13."
 
 ; default mirror to use
-(mirror sunsite-pl)
+(mirror slackware-pl)
 ; other mirror preference in case of failure or -current syncing
-(mirrors slackware-pl szczecin-man)
+(mirrors sunsite-de szczecin-man)
+; sunsite-pl) ; Not even 12.0
 ; these are the names defined in mirrors config
 
 ; wget options
-(wget --passive-ftp --tries=5 --wait=60 --random-wait -nv)
+(wget --passive-ftp --tries=4 --wait=30 --random-wait)
 
 ; access methods pref
 (access ftp)
