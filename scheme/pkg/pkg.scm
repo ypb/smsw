@@ -132,7 +132,8 @@
 	  '()
 	  (let* ((pkg (car l))
 		 (pkgname (pkg-name pkg))
-		 (match (regexp-search (rx (: bos ,name eos)) pkgname)))
+		 (match (string=? name pkgname)))
+;		 (match (regexp-search (rx (: bos ,name eos)) pkgname)))
 	    (if match
 		(cons pkg (loop (cdr l)))
 		(loop (cdr l))))))))

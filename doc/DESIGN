@@ -21,6 +21,8 @@ in one files for easier overview, in random order):
    first, (initing-mirrors) in order to get them and then... refreshing
    internal list of packages in order to filter by them...
  * we DON'T NEED to wget files one by one? or do we? NO, we DON'T...
+ * do make generic pkg accessors, if only for the sake of unified display
+   functions (vide display-list-lpkgs vs. display-list-pkgs)
 
 - strategy towards UPGRADE hints...
 
@@ -29,3 +31,4 @@ in one files for easier overview, in random order):
  2. go through release's core packages and show needed ACTION (upgrade, install)
  3. if we had 1. we could show packages considered for removal...
 
+ * GENERATE "shell" scripts... with pkg "steps" (i.e. cd there && installpkg --how that... && remove || upgrade... BLAH)

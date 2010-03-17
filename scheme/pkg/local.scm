@@ -59,7 +59,7 @@
 (define (lpkg-tag lpkg)
   (caddar lpkg))
 (define (lpkg-sect lpkg)
-  (caddr (lpkg-head lpkg)))
+  (cadddr (lpkg-head lpkg)))
 
 (define lpkg-head car)
 
@@ -168,7 +168,8 @@
 ;; TODO needs rewriting if we change format of the lpkg
 
 (define (list-installed)
-  (list-nicely lpkglst))
+;  (list-nicely lpkglst))
+  (list-nicely (make-lpkg-list)))
 
 (define (list-nicely localpkgs)
   (if (not (null? localpkgs))
@@ -188,6 +189,9 @@
 			 (arch-pad (lpkg-arch lpkg))
 			 (display " ")
 			 (buil-pad (lpkg-build lpkg))
+			 (display " ")
+			 (display (cons (lpkg-tag lpkg)
+					(lpkg-sect lpkg)))
 			 (newline))
 		  localpkgs))))
 

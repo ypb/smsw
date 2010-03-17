@@ -97,21 +97,31 @@
 
 ;; packages (finally)
 (define-interface smsw-pkg-interface
-  (export list-pkg
-	  list-pkg-range
+  (export bootstrap ; don't pay attention to the man behind the counter.
+	  ; remote...
+          list-pkg
+	  list-pkg-range ; to debug
 	  list-pkgs
 	  find-pkg
 	  get-pkg
 	  pkg-stats
-	  bootstrap
 	  get-core-pkgs
-	  upgrade-hints))
+	  ; local
+	  list-installed
+	  upgrade-hints
+	  determine-external
+	  determine-internal
+	  find-lpkg
+	  list-lpkg))
 
 (define-structure smsw-pkg smsw-pkg-interface
   (open scheme-with-scsh
 	tables
+	srfi-1
+	; ours
 	smsw-mirror
 	smsw-globals
+	smsw-filters
 	smsw-access
 	smsw-utils)
   (files "pkg/pkg.scm"
@@ -119,6 +129,14 @@
 	 "pkg/local.scm"
 	 "pkg/actions.scm"
 	 "pkg/bootstrap.scm"))
+
+;; filters
+(define-structure smsw-filters
+  (export read-external
+	  read-ignoreadd)
+  (open scheme-with-scsh
+	smsw-externals)
+  (files "blacklists/upgradehints.scm"))
 
 ;; main
 (define-structure smsw (export)

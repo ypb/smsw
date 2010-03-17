@@ -1,7 +1,7 @@
 ; -*- mode: scheme -*-
 
 ; which version of slackware to "look" on
-(current "12.0")
+(current "12.2")
 ; need explicit string because scsh renders 13.0 into "13."
 
 ; default mirror to use
@@ -12,7 +12,8 @@
 ; these are the names defined in mirrors config
 
 ; wget options
-(wget --passive-ftp --tries=4 --wait=30 --random-wait)
+;(wget --passive-ftp --tries=4 --wait=30 --random-wait)
+(wget --passive-ftp --tries=4)
 
 ; access methods pref
 (access ftp)
