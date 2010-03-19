@@ -35,11 +35,15 @@
 
 (define (list-mirrors)
   (let ((tmp (mirrors-list)))
-    (if tmp
-	(for-each (lambda (m)
-		    (display (mirror-name m))
-		    (newline))
-		  tmp)
+    (if (not (null? tmp))
+	(begin (display "Mirrors:") (newline)
+	       (for-each (lambda (m)
+			   (display (mirror-name m))
+			   (display "(")
+			   (display (mirror-path m))
+			   (display ")")
+			   (newline))
+			 tmp))
 	(begin (display "No mirrors defined.")
 	       (newline)))))
 
@@ -138,13 +142,16 @@
 	      fpath
 	      (begin (display "File: ")
 		     (display fpath)
-		     (display "doesn't exist or not readable.")
+		     (display " doesn't exist or not readable.")
 		     (newline)
 		     #f))))
       (begin (display "Insane settings in 'mk-path-renderer'.")
 	     (newline)
 	     #f)))
 
+;; TOFIX! is it a lst or not for fecks sake? (and rederer ...) -> #f
+; if insane even if caller expected a list of possible #f's...
+;; SHEESH
 ; 'core 'extra 'patches ? 'main ... "all"
 (define (mirror-filelist render type)
   (and render

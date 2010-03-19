@@ -10,13 +10,7 @@
     (display num) (newline)
     `((count . ,num))))
 
-;; MATCHERS
-; in FILE{LIST,_LIST}
-; match paths...
-(define rx-paths (rx (: " ./" (+ alphabetic))))
-; match paths... ending with .tgz TODO .txz on version >= 13.0
-(define rx-pkg (rx (: " ./" (+ any) (| ".tgz" ".txz") eos)))
-; LOL: Error: End-of-line regexp not supported in this implementation.
+;;; TODO in all justice this should be renamed to remote.scm
 
 (define (get-pkgs)
   (let ((filelist (current-mirror-filelist 'core)))
@@ -25,21 +19,7 @@
 	(begin (display "No available filelist")
 	       (newline)
 	       #f))))
-; file exists
-(define (read-pkg-records from-file)
-  (let ((match rx-pkg)
-	(split (infix-splitter)))
-    (with-input-from-file from-file
-      (lambda ()
-	(let loop ((line (read-line)))
-	  (if (not (eof-object? line))
-	      (if (regexp-search match line)
-		  (cons (list-tail (split line) 4) (loop (read-line)))
-		  (loop (read-line)))
-	      '()))))))
-
-;; returns (("size" "YYYY-MM-DD" "HH:MM" "./foo/pkg-name-ver-arch-build(.tgz|.txz)") ...)
-; see pkg-adt.scm for more
+; see read-raw.scm
 
 ;; (read-line [port handle-newline)
 ;; (regexp-search? re string [start flags])

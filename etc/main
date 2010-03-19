@@ -1,7 +1,7 @@
 ; -*- mode: scheme -*-
 
 ; which version of slackware to "look" on
-(current "12.2")
+(current "12.0")
 ; need explicit string because scsh renders 13.0 into "13."
 
 ; default mirror to use

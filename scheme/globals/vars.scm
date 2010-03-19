@@ -10,6 +10,22 @@
 	  (and tmp (cdr tmp)))
 	#f)))
 
+(define (set-variable sym val)
+  (let ((cfg (get-main)))
+    (if (not (null? cfg))
+	(let ((tmp (assq sym cfg)))
+	  (and tmp (set-cdr! tmp val)))
+	#f)))
+
+(define (switch-release num-str)
+  (display "Switching release: -old(")
+  (display (version))
+  (display ") +new(")
+  (set-variable 'current num-str)
+  (display (version))
+  (display ").")
+  (newline))
+
 ; error on 'unbound or or or what? if config empty? hmmm...
 
 ; string

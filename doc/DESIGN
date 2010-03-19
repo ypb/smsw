@@ -32,3 +32,17 @@ in one files for easier overview, in random order):
  3. if we had 1. we could show packages considered for removal...
 
  * GENERATE "shell" scripts... with pkg "steps" (i.e. cd there && installpkg --how that... && remove || upgrade... BLAH)
+
+S-C-E-N-V-A-B-P symbol scheme...?
+
+S - slackware release ("S"NN.N.N)
+C - class - usually a first name or some unifying principle, like being from one source?
+E - epoch, for example "S8.0.0-qt-1-qt-1.2.3-i386-3-pv" vs "S12.0.0-qt-3-qt-3.3.8-i486-4-pv"?
+N - just name in the package file
+V - just version
+A - just arch
+B - just build
+P - provider (pv = you know, mk = me)
+
+but that's not as simple ;(
+

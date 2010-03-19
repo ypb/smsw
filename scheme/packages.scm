@@ -16,6 +16,7 @@
 	  SMSW_VAR
 	  ; semi external and vars 
 	  SMSW_TMP
+	  switch-release
 	  ; sane-options?
 	  slackware-version
 	  protocol
@@ -98,6 +99,7 @@
 ;; packages (finally)
 (define-interface smsw-pkg-interface
   (export bootstrap ; don't pay attention to the man behind the counter.
+	  __bootstrap
 	  ; remote...
           list-pkg
 	  list-pkg-range ; to debug
@@ -125,7 +127,9 @@
 	smsw-access
 	smsw-utils)
   (files "pkg/pkg.scm"
+	 "pkg/read-raw.scm"
 	 "pkg/pkg-adt.scm"
+	 "pkg/tags.scm"
 	 "pkg/local.scm"
 	 "pkg/actions.scm"
 	 "pkg/bootstrap.scm"))
@@ -139,10 +143,21 @@
   (files "blacklists/upgradehints.scm"))
 
 ;; main
-(define-structure smsw (export)
-  (open scheme ; but don't need it?
-	smsw-help
+(define-structure smsw-main
+  (export start
+	  move-to
+	  status)
+  (open scheme
 	smsw-config
 	smsw-mirror
 	smsw-globals
+	smsw-pkg)
+  (files "smsw/manager.scm"))
+
+;; main
+(define-structure smsw (export)
+  (open scheme ; but don't need it?
+	smsw-help
+	smsw-main
+	smsw-mirror
 	smsw-pkg))

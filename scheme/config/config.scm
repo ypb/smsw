@@ -5,26 +5,7 @@
   (string-append SMSW_ETC "/" config))
 
 (define configs '())
-
-(define (init-configs)
-  (if (null? configs)
-      (set! configs
-	    (list `(mirrors ,(full-path "mirrors")
-			    ,(default-loader read-mirror))
-		  `(main ,(full-path "main")
-			 ,(default-loader read-variable))))))
-
 (define config '())
-
-(define (get-section sect)
-  (if (not (null? config))
-      (let ((tmp (assq sect config)))
-	(if tmp (cdr tmp)
-	    '()))
-      '()))
-
-(define (get-main) (get-section 'main))
-(define (get-mirrors) (get-section 'mirrors))
 
 (define (load-config)
   (init-configs)
@@ -36,6 +17,14 @@
     (display "config.")
     (newline)
     tmp))
+
+(define (init-configs)
+  (if (null? configs)
+      (set! configs
+	    (list `(mirrors ,(full-path "mirrors")
+			    ,(default-loader read-mirror))
+		  `(main ,(full-path "main")
+			 ,(default-loader read-variable))))))
 
 ;;; TODO abstract
 (define (load-config-file config)
@@ -62,6 +51,16 @@
 	(if (not (eof-object? r))
 	    (proc r (loop (read)))
 	    '())))))
+
+(define (get-section sect)
+  (if (not (null? config))
+      (let ((tmp (assq sect config)))
+	(if tmp (cdr tmp)
+	    '()))
+      '()))
+
+(define (get-main) (get-section 'main))
+(define (get-mirrors) (get-section 'mirrors))
 
 ;; loader procs construction (see other .scms)
 

@@ -10,45 +10,6 @@
 (define (installed-list)
   lpkglst)
 
-(define (get-installed)
-  (if (and (file-exists? idir)
-	   (file-directory? idir)
-	   (file-readable? idir))
-      (let ((ipkgs (with-cwd idir (glob "*"))))
-	(map string->lpkg ipkgs))
-      (begin (display "Trouble with ")
-	     (display idir)
-	     (newline)
-	     '())))
-; also handles foo/bar/pkg.tgz NOT... there are dots in versions...
-(define (string->lpkg str)
-  (let* ((tmp (get-only-name-part str))
-	 (split ((infix-splitter (rx "-")) tmp)))
-    (if (not (< 3 (length split)))
-	(begin (display "Not a proper pkg name: ")
-	       (display str)
-	       (newline)
-	       #f)
-	(let* ((name-parts (list-butt split 3))
-	       (count (length name-parts)))
-	  (list (reassemble name-parts)
-		(list-ref split count)
-		(list-ref split (+ count 1))
-		(list-ref split (+ count 2)))))))
-
-; this not working... (file-name-sans-extension (file-name-nondirectory str))
-; get ONLY "name" part
-(define (get-only-name-part frag)
-  (let ((extricator (rx (: (submatch (* (: (* any) "/")))
-			   (submatch (* (~ "/")))
-			   (submatch (| eos
-					(| ".txz" ".tgz"
-					   ".txt"
-					   ".txz.asc"
-					   ".tgz.asc")))))))
-    (match:substring (regexp-search extricator frag) 2)))
-;;; hmmm... seems to work, not sure about that 2 here ^
-
 (define (lpkg? lpkg)
   (and (pair? lpkg)
        (pair? (car lpkg))
@@ -74,12 +35,10 @@
 (define (lpkg-full-name lpkg)
   (raw-lpkg-full-name (cdr lpkg)))
 
-;; raw from read
-(define raw-lpkg-name car)
-(define raw-lpkg-version cadr)
-(define raw-lpkg-arch caddr)
-(define raw-lpkg-build cadddr)
-(define raw-lpkg-full-name reassemble)
+; dynamic
+(define (make-lpkg-list)
+  (make-installed-list (get-installed)))
+; see read-raw.scm
 
 ;; like make-core-list
 (define (make-installed-list raw-list)
@@ -150,7 +109,7 @@
 		  (loop (read-line)))
 	      #f))))))
 
-;; good patter?
+;; good pattern?
 (define (verify-lpkg-list)
   (verify-list lpkglst))
 

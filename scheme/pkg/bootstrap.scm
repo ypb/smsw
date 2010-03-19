@@ -1,4 +1,9 @@
 
+;;; LOL it doesn't mean what i thought you would think it means.
+
+(define (__bootstrap)
+  (init-pkglist))
+
 ; Slackware 11.0
 (define bootstrap-chroot-110
   '("aaa_base" "aaa_elflibs" "bash" "coreutils" "devs" "etc" "grep" "glibc-solibs" "gzip" "pkgtools" "tar"))

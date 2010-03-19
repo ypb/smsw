@@ -34,3 +34,40 @@ from 4.0 ChangeLog.txt
 the "same" about 3.6-3.1
 ends on 1999-11-27
 
+from 7.0 ChangeLog.txt
+7.0 (release 1999-10-25 15:44:34 CDT) (* Slackware-stable version 7 is released *)
+lots of 6.x betas...
+Wed Aug 25 14:20:35 CDT 1999 (* Released Slackware 5.2b *)
+Mon Aug 23 22:14:34 CDT 1999 (* Released Slackware 5.2b *)
+5.1a
+5.0.0a
+the same about 4.0/3.6-3.1
+ends sometimes between 2000-2002
+
+from 7.1 ChangeLog.txt
+7.1 (release 2000-06-22 00:00:47 PDT) -stable
+ends on 2002-06-26
+
+from 8.0 ChangeLog.txt
+8.0 (release 2001-06-28 15:36:05 PDT) -stable
+branched from 7.1 on 2000-08-24 14:14:00 PDT
+ends on 2003-03-29
+
+from 8.1 ChangeLog.txt
+8.1 (release 2002-06-19 07:02:39 PDT) 8.1.01-stable (LOI)
+8.1 (release 2002-06-18 10:47:47 PDT) -stable
+branched from 8.0 on 2001-09-21 15:01:21 PDT
+first to use name-version-arch-build.tgz "format"
+ends on 2004-04-17
+
+from 9.0 ChangeLog.txt
+9.0 (release 2003-03-18 01:44:41 PST)
+ends on 2004-04-17
+
+from 9.1 ChangeLog.txt
+9.1 (release 2003-09-25 07:00:08 PDT)
+ends on 2004-04-19
+
+from 10.0 ChangeLog.txt
+10.0 (release 2004-06-22 01:34:56 PDT)
+ends on 2004-10-31
