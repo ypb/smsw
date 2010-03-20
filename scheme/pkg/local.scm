@@ -98,3 +98,32 @@
 					    (lpkg-full-name lpkg)))
 	       (loop (cdr l))))))))
 ;; TODO needs rewriting if we change format of the lpkg
+
+;; searching
+(define (find-lpkg by what . opt)
+  (let ((display-or-how-raw (if (not (null? opt))
+				(car opt)
+				2))
+	(tmp (find-lpkg-list by what)))
+    (case display-or-how-raw
+      ((0) tmp)
+      ((1) (begin (display-list-lpkgs tmp)
+		  (display-total tmp) (newline)))
+      ((2) (begin (list-nicely tmp)
+		  (display-total tmp) (newline))))))
+
+(define (list-lpkg whut)
+  (find-lpkg 'sru whut))
+
+(define (find-lpkg-list by critter)
+  (case by
+    ((name) (filter (lambda (lpkg)
+		      (string=? critter (lpkg-name lpkg)))
+		    (make-lpkg-list)))
+    ((tag) (filter (lambda (lpkg)
+		     (eq? critter (lpkg-tag lpkg)))
+		   (make-lpkg-list)))
+    ((sru) (filter (lambda (lpkg)
+		    (regexp-search? (rx ,critter) (lpkg-full-name lpkg)))
+		   (make-lpkg-list)))
+    (else '())))

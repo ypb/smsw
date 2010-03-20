@@ -115,6 +115,7 @@
 	  ; local
 	  list-installed
 	  upgrade-hints
+	  update-hints
 	  determine-external
 	  determine-internal
 	  find-lpkg
