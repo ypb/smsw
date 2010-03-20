@@ -152,9 +152,13 @@
 (define (update-hints . opt) ; by sections? or tags, or or!?! ohr, shiny!
   (display "Update hints from (") (display (local-version))
   (display ") to (") (display (version)) (display ").") (newline)
-  (let ((installed (if (null? opt)
+  (let ((installed ;(if (null? opt)
 		       (make-lpkg-list)
-		       (find-lpkg 'tag (car opt) 0))))
+		       ;(find-lpkg 'tag (car opt) 0))
+		       )
+	(fsect (if (null? opt)
+		   #f
+		   (car opt))))
 ; TODO SHIT! local do not have section!?!??!?!?!!111!1!1
     (let* ((local+remote (map (lambda (p)
 			     (cons p
@@ -163,7 +167,11 @@
 	   (updatable (filter (lambda (l+r)
 				(and (not (null? (cdr l+r)))
 				     (not (lvb=rvb? (car l+r)
-						    (cadr l+r)))))
+						    (cadr l+r)))
+				     (if fsect
+					 (equal? fsect
+						 (pkg-sect (cadr l+r)))
+					 #t)))
 			   local+remote))
 	   (just+pad (list r-pad r-pad
 			   l-pad l-pad r-pad

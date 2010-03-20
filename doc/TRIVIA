@@ -53,21 +53,41 @@ from 8.0 ChangeLog.txt
 branched from 7.1 on 2000-08-24 14:14:00 PDT
 ends on 2003-03-29
 
+---
+
 from 8.1 ChangeLog.txt
 8.1 (release 2002-06-19 07:02:39 PDT) 8.1.01-stable (LOI)
 8.1 (release 2002-06-18 10:47:47 PDT) -stable
 branched from 8.0 on 2001-09-21 15:01:21 PDT
 first to use name-version-arch-build.tgz "format"
-ends on 2004-04-17
+ends on 2004-04-17...
 
 from 9.0 ChangeLog.txt
 9.0 (release 2003-03-18 01:44:41 PST)
-ends on 2004-04-17
+ends on 2004-04-17...
 
 from 9.1 ChangeLog.txt
 9.1 (release 2003-09-25 07:00:08 PDT)
-ends on 2004-04-19
+ends on 2004-04-19...
 
 from 10.0 ChangeLog.txt
 10.0 (release 2004-06-22 01:34:56 PDT)
-ends on 2004-10-31
+ends on 2004-10-31...
+
+from 10.1 ChangeLog.txt
+10.1 (release 2005-02-02 18:22:01 PST) stable
+very very sick puppy...
+ends on 2006-08-18...
+
+from 10.2 ChangeLog.txt
+10.2 (release 2005-09-13 12:24:53 PDT)
+ends on 2006-08-22...
+
+---
+
+11.0 (2006-10-01 23:50:53 CDT)
+12.0 (2007-07-01 22:30:42 CDT)
+12.1 (2008-05-01 13:36:34 CDT) -stable
+12.2 (2008-12-09 00:00:23 CST) -stable
+13.0 (2009-08-26 10:00:38 CDT) Slackware 13.0 x86 is released as stable!
+
