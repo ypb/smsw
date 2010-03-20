@@ -17,6 +17,7 @@
 	  ; semi external and vars 
 	  SMSW_TMP
 	  switch-release
+	  local-version
 	  ; sane-options?
 	  slackware-version
 	  protocol
@@ -47,6 +48,8 @@
 ;; config needs extertalns but globals uses config...
 (define-interface smsw-config-interface
   (export load-config
+	  ; only here because we don't want to import more than scheme in -globals
+	  read-local-version
 	  ; config-sane?
 	  get-main
 	  get-mirrors))
@@ -56,6 +59,7 @@
 	smsw-externals
 	smsw-utils)
   (files "config/config.scm"
+	 "config/etc.scm"
 	 "config/read-mirs.scm"
 	 "config/read-vars.scm"))
 
@@ -131,6 +135,7 @@
 	 "pkg/pkg-adt.scm"
 	 "pkg/tags.scm"
 	 "pkg/local.scm"
+	 "pkg/display.scm"
 	 "pkg/actions.scm"
 	 "pkg/bootstrap.scm"))
 

@@ -10,6 +10,10 @@
 (define (installed-list)
   lpkglst)
 
+(define (list-installed)
+;  (list-nicely lpkglst))
+  (list-nicely (make-lpkg-list)))
+
 (define (lpkg? lpkg)
   (and (pair? lpkg)
        (pair? (car lpkg))
@@ -44,7 +48,7 @@
 (define (make-installed-list raw-list)
   (if (null? raw-list)
       '()
-      (let ((sver-num-str (extract-etc-version)))
+      (let ((sver-num-str (local-version)))
 	(if (not sver-num-str)
 	    (begin (display "Couldn't get OS version.")
 		   (newline)
@@ -78,37 +82,6 @@
 		    #f)
 	      raw-lpkg))))
 
-;; TOPONDER if we get bogus string like 11.0.0 many things may break!
-(define (extract-etc-version)
-  (let ((vfile "/etc/slackware-version")
-	(match (rx (: (+ numeric)
-		      "."
-		      numeric))))
-    (if (file-exists? vfile)
-	(let ((smth (read-etc-smth vfile)))
-	  (and smth
-	       (match:substring (regexp-search match
-					       smth))))
-	(begin (display "File ")
-	       (display vfile)
-	       (display "does not exist.")
-	       (newline)
-	       #f))))
-
-(define (read-etc-smth file)
-  (let ((match (rx (: bos
-		      "Slackware "
-		      (+ numeric)
-		      (* any)))))
-    (with-input-from-file file
-      (lambda ()
-	(let loop ((line (read-line)))
-	  (if (not (eof-object? line))
-	      (if (regexp-search? match line)
-		  line
-		  (loop (read-line)))
-	      #f))))))
-
 ;; good pattern?
 (define (verify-lpkg-list)
   (verify-list lpkglst))
@@ -125,44 +98,3 @@
 					    (lpkg-full-name lpkg)))
 	       (loop (cdr l))))))))
 ;; TODO needs rewriting if we change format of the lpkg
-
-(define (list-installed)
-;  (list-nicely lpkglst))
-  (list-nicely (make-lpkg-list)))
-
-(define (list-nicely localpkgs)
-  (if (not (null? localpkgs))
-      (let* ((mk-l-padder (padder-maker 'left #\space))
-	     (mk-r-padder (padder-maker 'right #\space))
-	     (maxima (max-parts-lengths localpkgs))
-	     (name-pad (mk-l-padder (car maxima)))
-	     (vers-pad (mk-r-padder (cadr maxima)))
-	     (arch-pad (mk-r-padder (caddr maxima)))
-	     (buil-pad (mk-r-padder (cadddr maxima))))
-	(for-each (lambda (lpkg)
-			 (display " ")
-			 (name-pad (lpkg-name lpkg))
-			 (display " ")
-			 (vers-pad (lpkg-version lpkg))
-			 (display " ")
-			 (arch-pad (lpkg-arch lpkg))
-			 (display " ")
-			 (buil-pad (lpkg-build lpkg))
-			 (display " ")
-			 (display (cons (lpkg-tag lpkg)
-					(lpkg-sect lpkg)))
-			 (newline))
-		  localpkgs))))
-
-(define (max-parts-lengths lst)
-  (let loop ((n 0) (v 0) (a 0) (b 0) (l lst))
-    (if (null? l)
-	(list n v a b)
-	(let ((lpkg (car l)))
-	  (if lpkg
-	      (loop (max n (string-length (lpkg-name lpkg)))
-		    (max v (string-length (lpkg-version lpkg)))
-		    (max a (string-length (lpkg-arch lpkg)))
-		    (max b (string-length (lpkg-build lpkg)))
-		    (cdr l))
-	      (loop n v a b (cdr l)))))))

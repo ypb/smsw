@@ -53,15 +53,15 @@ GEN_FILES	:= ${NAME} load.scm ${EXTERNAL}
 all: ${GEN_FILES}
 
 ${NAME}: in/${NAME}
-	sed -s 's|@SMSW_LIB@|${SMSW_LIB}|' $< > $@
+	sed "s|@SMSW_LIB@|${SMSW_LIB}|g" $< > $@
 	chmod +x $@
 
 load.scm: in/load.scm
-	sed -s 's|@SMSW_LIB@|${SMSW_LIB}|' $< > $@
+	sed "s|@SMSW_LIB@|${SMSW_LIB}|g" $< > $@
 
 ${EXTERNAL}: in/external.scm
-	sed -s 's|@SMSW_ETC@|${SMSW_ETC}|;\
-		s|@SMSW_VAR@|${SMSW_VAR}|' $< > $@
+	sed "s|@SMSW_ETC@|${SMSW_ETC}|g;\
+	     s|@SMSW_VAR@|${SMSW_VAR}|g" $< > $@
 
 this-is-beta-soft: use-the-force-luke-read-the-source
 

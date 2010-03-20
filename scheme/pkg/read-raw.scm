@@ -1,13 +1,17 @@
 
-;; REMOTE (there is also LOCAL section down below)
+;;; REMOTE (there is also LOCAL section down below)
 
 ;; MATCHERS
 ; in FILE{LIST,_LIST}
 ; match paths...
 (define rx-paths (rx (: " ./" (+ alphabetic))))
-; match paths... ending with .tgz TODO .txz on version >= 13.0
+; match paths... ending with .tgz, .txz on version >= 13.0
 (define rx-pkg (rx (: " ./" (+ any) (| ".tgz" ".txz") eos)))
 ; LOL: Error: End-of-line regexp not supported in this implementation.
+
+;; (read-line [port handle-newline)
+;; (regexp-search? re string [start flags])
+;; (infix-splitter [delim num-fields handle-delim])
 
 ; file exists
 (define (read-pkg-records from-file)
@@ -57,7 +61,7 @@
   (string->lpkg (raw-pkg-path pkg)))
 ; this is really co-mingling'em. or smart code reuse ;)
 
-;;;
+; random cosmetics
 
 (define (raw-pkg/size->number raw-pkg)
   (cons (string->number (car raw-pkg))
@@ -66,16 +70,16 @@
 (define (core-raw-pkg-sect raw-pkg)
   (cadr (split-file-name (raw-pkg-path raw-pkg))))
 
+;;; LOCAL
 
-;; LOCAL
-
-;; raw from read
+;; raw from read, much cleaner compared to raw-pkg, but reusing them code.
 (define raw-lpkg-name car)
 (define raw-lpkg-version cadr)
 (define raw-lpkg-arch caddr)
 (define raw-lpkg-build cadddr)
 (define raw-lpkg-full-name reassemble)
 
+;; hmmm... using global var (idir), but it's held in local.scm...
 (define (get-installed)
   (if (and (file-exists? idir)
 	   (file-directory? idir)
@@ -103,7 +107,7 @@
 		(list-ref split (+ count 2)))))))
 
 ; this not working... (file-name-sans-extension (file-name-nondirectory str))
-; get ONLY "name" part
+; get ONLY "nvab" part
 (define (get-only-name-part frag)
   (let ((extricator (rx (: (submatch (* (: (* any) "/")))
 			   (submatch (* (~ "/")))

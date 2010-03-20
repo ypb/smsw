@@ -4,8 +4,27 @@
   (determine-external)
   (core-installed-or-missing))
 
+; display
+(define l-pad '(left #\space))
+(define r-pad '(right #\space))
+(define l/r-pads (list r-pad
+		       l-pad r-pad r-pad r-pad
+		       l-pad r-pad r-pad r-pad))
+
+; using first remote first raw should equal "1" for all HA Ha ha, suuure!?, you bugger!
+; not so trivial after all, local critical may be in the first list of renamed/discontinued...
+(define (local/remote lpkg)
+  (let* ((remotes (find-pkg (lpkg-name lpkg)))
+	(num (length remotes)))
+    (cons (number->string num)
+	  (append (lpkg->strings lpkg)
+		  (if (not (zero? num))
+		      (cons "->"
+			    (cdr (pkg-nvab (car remotes))))
+		      (list "" "" "" ""))))))
+
 (define (core-installed-or-missing)
-  (display "Installed \"critical\" packages:")
+  (display "Installed \"critical\" packages of DIFFERENT version:")
   (let ((ignore-ADDs (read-ignoreadd)))
     (notice-filtering "IA" ignore-ADDs) (newline)
     (let* ((local-ADD-pkgs (find-lpkg 'tag 'ADD 0))
@@ -14,8 +33,22 @@
 			      (not (member (lpkg-name pkg)
 					   ignore-ADDs)))
 			    local-ADD-pkgs)
-		    local-ADD-pkgs)))
-      (list-nicely tmp)
+		    local-ADD-pkgs))
+	   (slow (filter (lambda (pkg)
+			   (let ((remote (find-pkg (lpkg-name pkg))))
+			     (or (null? remote)
+				 (not (string=? (string-append (lpkg-version pkg)
+							       "-"
+							       (lpkg-build pkg))
+						; TODO TODO TODO
+						(string-append (pkg-version (car remote))
+							       "-"
+							       (pkg-build (car remote))))))))
+			 tmp)))
+; TOFIX and yet another filter on version inequality... do the work in one place
+     (do-display-padded l/r-pads (map local/remote slow)) ; tmp
+;;      (for-each just-display (map local/remote tmp))
+;      (list-nicely tmp)
       (display-total tmp) (notice-filtered local-ADD-pkgs tmp) (newline))
     (display "Remote \"core\" packages not installed:")
     (notice-filtering "IA" ignore-ADDs) (newline)
@@ -99,11 +132,6 @@
       ((2) (begin (list-nicely tmp)
 		  (display-total tmp) (newline))))))
 
-(define (display-list-lpkgs lpkgs-lst)
-  (for-each (lambda (p)
-	      (display (lpkg-full-name p)) (newline))
-	    lpkgs-lst))
-
 (define (list-lpkg whut)
   (find-lpkg 'sru whut))
 
@@ -123,6 +151,6 @@
 ;; DARN that's expensive (read: makes a user wait aaaaa moment - half a min -
 ; scsh ain't no speed demon)
 ; we should do it during make-installed-list; a new SUB-type perhaps?
-; TOFIX
+; TOFIX sort ov dan..
 ; find-pkg needs not use regexp-search... string=? is enough (no regex == 3x faster)
 ; pkg format should hold package name as simple string

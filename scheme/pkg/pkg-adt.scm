@@ -35,7 +35,7 @@
 (define (pkg-full-name p)
   (reassemble (pkg-nvab p)))
 
-; TOFIX from -old format
+; FIXed from -old format
 (define (pkg-type-old pkg)
   (cadar pkg))
 (define (pkg-type p)
@@ -54,7 +54,7 @@
   (raw-pkg-path (cdr pkg)))
 (define (pkg-size pkg)
   (cadr pkg))
-;; TOFIX: optimize? we could'av store it in the head?
+;; FIXed: optimize? we could'av store it in the head?
 (define (pkg-name-old pkg)
   (raw-pkg-name (cdr pkg)))
 ;; TOFIX assuming core
@@ -102,6 +102,7 @@
 		    #f
 		    #f)
 	      (raw-pkg/size->number raw-pkg)))))
+; dead code above
 
 (define (mk-pkg-maker type tag-hash)
   (if tag-hash

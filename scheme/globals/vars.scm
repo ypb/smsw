@@ -28,6 +28,9 @@
 
 ; error on 'unbound or or or what? if config empty? hmmm...
 
+; see config/etc.scm
+(define local-version read-local-version)
+
 ; string
 (define (slackware-version)
   (let ((tmp (get-variable 'current)))

@@ -21,15 +21,6 @@
 	       #f))))
 ; see read-raw.scm
 
-;; (read-line [port handle-newline)
-;; (regexp-search? re string [start flags])
-;; (infix-splitter [delim num-fields handle-delim])
-
-(define (display-list-pkgs lst)
-  (for-each (lambda (p)
-	      (display (pkg-path-full p)) (newline))
-	    lst))
-
 (define (list-pkgs namefraglst . flag)
   (perhaps-init-pkglist flag)
   (let ((tmp (list-pkg-sre (build-or-sre namefraglst))))

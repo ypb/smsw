@@ -44,7 +44,7 @@
 
 (define (status)
   (display "local(")
-  (display "TODO") (display ") ")
+  (display (local-version)) (display ") ")
   (display "remote(")
   (display (version)) (display ")")
   (newline)
@@ -57,4 +57,5 @@
 		  (display " ")
 		  (display ms))
 		(mirror-strings))))
-  (newline))
+  (newline)
+  (pkg-stats))
