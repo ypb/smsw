@@ -85,6 +85,15 @@
 	smsw-utils)
   (files "access/access.scm"))
 
+;; TDM: trivial download manager
+(define-structure smsw-tdm
+  (export wget)
+  (open scheme-with-scsh
+	srfi-1
+	; only for now
+	smsw-externals)
+  (files "tdm/wwget.scm"))
+
 ;; utils
 (define-interface smsw-utils-interface
   (export typefy
@@ -164,6 +173,7 @@
 (define-structure smsw (export)
   (open scheme ; but don't need it?
 	smsw-help
+	smsw-tdm
 	smsw-main
 	smsw-mirror
 	smsw-pkg))
