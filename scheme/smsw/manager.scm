@@ -1,8 +1,8 @@
 
 ; this is ancient enough... pour moi, cherie.
-(define releases '("13.0" "12.2" "12.1" "12.0" "11.0" "10.2" "10.1" "10.0" "9.1" "9.0" "8.1" "8.0" "7.1" "7.0" "4.0"))
+(define releases '("current" "13.0" "12.2" "12.1" "12.0" "11.0" "10.2" "10.1" "10.0" "9.1" "9.0" "8.1" "8.0" "7.1" "7.0" "4.0"))
 ; above should be ordered or how will the below know?
-(define range '("13.0" . "8.1"))
+(define range '("current" . "8.1"))
 
 ; this project is actually getting too big for my own grasp and it's sooo small
 (define (start)
