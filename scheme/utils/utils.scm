@@ -148,3 +148,17 @@
       ((left) left)
       ((right) right)
       (else right))))
+
+;; Emilio C. Lopes <eclig@gmx.net>, 2005-10-10
+
+(define (grep-port regexp port printer)
+  (do ((line (read-line port) (read-line port))
+       (line-number 1 (+ line-number 1)))
+      ((eof-object? line) 'done)
+    (if (regexp-search? regexp line)
+        (printer line-number line))))
+
+(define (grep regexp file)
+  (call-with-input-file file
+    (lambda (port)
+      (grep-port regexp port (lambda (lineno line) (format #t "~a:~a:~a~%" file lineno line))))))

@@ -94,6 +94,15 @@
 	smsw-externals)
   (files "tdm/wwget.scm"))
 
+;; sluts... SLackware UTilS...
+(define-structure smsw-slatz
+  (export smani-pkgs
+	  smani-full)
+  (open scheme-with-scsh
+	; smsw-utils ; pseudo-grep using scsh's own primitives... 2+ orders of magnitude slower, BAH[tm]
+	smsw-externals)
+  (files "slatz/smani.scm"))
+
 ;; utils
 (define-interface smsw-utils-interface
   (export typefy
@@ -103,7 +112,9 @@
 	  mk-append-str
 	  trim-whitespace
 	  is-comment?
-	  padder-maker))
+	  padder-maker
+	  grep
+	  grep-port))
 
 (define-structure smsw-utils smsw-utils-interface
   (open scheme-with-scsh)
@@ -174,6 +185,7 @@
   (open scheme ; but don't need it?
 	smsw-help
 	smsw-tdm
+	smsw-slatz
 	smsw-main
 	smsw-mirror
 	smsw-pkg))
