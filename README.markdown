@@ -1,5 +1,4 @@
-ScheMeta SlackWarez
--------------------
+# ScheMeta SlackWarez
     "For every basement dweller there is Da7a of 9ines fjording from the Middle
       ground." -- Mr Stey "Reproduction is Death" O. Reginand
 
@@ -7,10 +6,9 @@ ScheMeta SlackWarez
 [Scsh](http://www.scsh.net/) - Unix schell embedded within
 [Scheme](http://www.schemers.org/) - a dialect of Lisp.
 
-Installing
-----------
+## Installing
 
-Prerequisites:
+### Prerequisites:
 
   * slackware (duh!)
   * scsh
