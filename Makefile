@@ -30,7 +30,7 @@ SMSW_DOC	:= ${PREFIX}/doc/${FULLNAME}
 EXTERNAL	:= scheme/globals/external.scm
 
 top_files	:= Makefile VERSION
-doc_files	:= README
+doc_files	:= README.markdown
 DOC_FILES	:= TRIVIA DESIGN
 IN_FILES	:= external.scm load.scm ${NAME}
 ETC_FILES	:= main mirrors
